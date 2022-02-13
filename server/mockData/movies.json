@@ -1,22 +1,32 @@
 [
-    {
-        "id": 1,
-        "title": "The Godfather"
-    },
-    {
-        "id": 2,
-        "title": "The Godfather II"
-    },
-    {
-        "id": 3,
-        "title": "The Godfather III"
-    },
-    {
-        "id": 4,
-        "title": "The Godfather IV"
-    },
-    {
-        "id": 5,
-        "title": "The Godfather V"
-    }
+  {
+    "id": 1,
+    "title": "The Godfather",
+    "img": "the-godfather.jpg"
+  },
+  {
+    "id": 2,
+    "title": "The Godfather II",
+    "img": "the-godfather-ii.jpg"
+  },
+  {
+    "id": 3,
+    "title": "The Godfather III",
+    "img": "the-godfather-iii.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Your name",
+    "img": "kimi-no-na-wa.jpg"
+  },
+  {
+    "id": 5,
+    "title": "Ender's game",
+    "img": "ender-s-game.jpg"
+  },
+  {
+    "id": 6,
+    "title": "Blade Runner",
+    "img": "blade-runner.jpg"
+  }
 ]

@@ -4,10 +4,10 @@
   "description": "The localhost's most popular and authoritative source for movie, TV and celebrity content. Find ratings and reviews for the newest movie and TV shows.",
   "main": "index.js",
   "scripts": {
-    "start-dev": "supervisor server/index.js",
+    "start-dev": "supervisor index.js",
     "test": "standard",
     "fix": "standard --fix",
-    "start": "node server/index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",

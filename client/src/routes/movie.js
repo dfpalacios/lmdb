@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
-import MovieDetail from "components/movies/MovieDetail";
-import { useParams } from "react-router-dom";
-import { getMovie } from 'services/movies';
+import MovieDetail from 'components/MovieDetail'
+import { useParams } from 'react-router-dom'
+import { getMovie } from 'services/movies'
 
 const Movie = () => {
-  const params = useParams();
+  const params = useParams()
   const [movie, setMovie] = useState(null)
 
   useEffect(() => {

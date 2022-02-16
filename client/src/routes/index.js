@@ -1,4 +1,5 @@
-import MoviesGrid from 'components/movies/MoviesGrid'
+import React from 'react'
+import MoviesGrid from 'components/MoviesGrid'
 
 const Index = () => {
   return (<MoviesGrid />)

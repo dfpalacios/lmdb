@@ -22,23 +22,25 @@ const getMovies = (params) => {
     .filter((movie) => movie?.info?.rank !== undefined)
 
   const moviesFiltered =
-    (genres.length > 0 ?
-      moviesSearch.filter((movie) => (movie?.info?.genres?.some((genre) => genres.includes(genre))))
+    (genres.length > 0
+      ? moviesSearch.filter((movie) => (movie?.info?.genres?.some((genre) => genres.includes(genre))))
       : moviesSearch
     ).sort((a, b) => {
       switch (field) {
-        default:
-          let rankA = a.info.rank ? parseInt(a.info.rank, 10) : -1
-          let rankB = b.info.rank ? parseInt(b.info.rank, 10) : -1
-          return sort === 'asc' ? rankA - rankB : rankB - rankA
         case 'title':
           return (sort === 'asc')
             ? a.title.toLowerCase().localeCompare(b.title.toLowerCase())
             : b.title.toLowerCase().localeCompare(a.title.toLowerCase())
-        case 'rating':
+        case 'rating': {
           const ratingA = a.info.rating ? parseFloat(a.info.rating) : -1
           const ratingB = b.info.rating ? parseFloat(b.info.rating) : -1
           return (sort === 'desc') ? ratingA - ratingB : ratingB - ratingA
+        }
+        default: {
+          const rankA = a.info.rank ? parseInt(a.info.rank, 10) : -1
+          const rankB = b.info.rank ? parseInt(b.info.rank, 10) : -1
+          return sort === 'asc' ? rankA - rankB : rankB - rankA
+        }
       }
     })
 

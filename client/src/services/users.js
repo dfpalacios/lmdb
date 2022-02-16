@@ -9,3 +9,8 @@ export const postLogin = async (loginData) => {
   const { data } = await axios.post('/api/login', loginData)
   return data
 }
+
+export const postRegister = async (registerData) => {
+  const { data } = await axios.post('/api/register', registerData)
+  return data
+}

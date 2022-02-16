@@ -7,10 +7,10 @@ import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 
-import 'styles/App.scss'
+import 'assets/styles/App.scss'
 
-import Menu from 'components/layouts/Menu'
-import Header from 'components/layouts/Header'
+import Menu from 'parts/Menu'
+import Header from 'parts/Header'
 
 const App = () => {
   return (

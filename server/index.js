@@ -22,17 +22,19 @@ const createToken = (user) => jwt.sign(
   }
 )
 
+const sleep = (ms) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms)
+  })
+}
+
 app.use(express.json())
 app.use(express.static(path.join(__dirname, '/public')))
 
-app.get('/api/test', (req, res) => {
-  res.json({ message: 'Hello from server!' })
-})
-
-app.get('/api/movies', (req, res) => {
+app.get('/api/movies', async (req, res) => {
+  await sleep(1000)
   try {
     const movies = bd.getMovies(req.query)
-
     if (!movies) {
       res.json([])
       return
@@ -44,7 +46,8 @@ app.get('/api/movies', (req, res) => {
   }
 })
 
-app.get('/api/movies/:movieId', checkUser, (req, res) => {
+app.get('/api/movies/:movieId', checkUser, async (req, res) => {
+  await sleep(1000)
   try {
     const { movieId } = req.params
 
@@ -55,7 +58,7 @@ app.get('/api/movies/:movieId', checkUser, (req, res) => {
 
     const movie = bd.getMovie((movie) => (Number(movie.info.rank) === Number(movieId)))
 
-    if (req.user) {
+    if (req.user && parseInt(movieId, 10) % 2 === 0) {
       movie.userRating = movie.info.rating / 2
     }
 
@@ -70,7 +73,13 @@ app.get('/api/movies/:movieId', checkUser, (req, res) => {
   }
 })
 
-app.post('/api/movies/:movieId/stars', verifyToken, (req, res) => {
+app.post('/api/movies/:movieId/stars', verifyToken, async (req, res) => {
+  await sleep(1000)
+  res.sendStatus(200)
+})
+
+app.post('/api/register', async (req, res) => {
+  await sleep(1000)
   res.sendStatus(200)
 })
 
@@ -98,6 +107,7 @@ app.post('/api/token/refresh', function (req, res) {
 })
 
 app.post('/api/login', async (req, res) => {
+  await sleep(1000)
   try {
     const { email, password } = req.body
 

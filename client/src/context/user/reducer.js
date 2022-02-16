@@ -1,5 +1,4 @@
 import { LOGIN, REFRESH_TOKEN, LOGOUT } from './constants'
-import initialState from './initialState'
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -13,7 +12,12 @@ const reducer = (state, action) => {
       }
     }
     case LOGOUT: {
-      return initialState
+      return {
+        id: null,
+        name: null,
+        token: null,
+        refreshToken: null
+      }
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`)

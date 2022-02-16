@@ -7,6 +7,7 @@ import styles from 'styles/stars.module.scss'
 import { useUserStore } from 'context/user/hooks'
 import { useModalStore } from 'context/modal/hooks'
 import { SHOW_MODAL } from 'context/modal/constants'
+import { postRateMovie } from 'services/movies'
 
 const Stars = ({ movie, disabled }) => {
   const [user] = useUserStore()
@@ -16,8 +17,9 @@ const Stars = ({ movie, disabled }) => {
     return (
       <Rating
         name={`rating-${movie.id}`}
+        value={movie.info.rating / 2}
         onChange={(event, newValue) => {
-          console.log(newValue)
+          postRateMovie(movie.id, newValue)
         }}
       />
     )
@@ -36,7 +38,7 @@ const Stars = ({ movie, disabled }) => {
     >
       <Rating
         name={`rating-${movie.id}`}
-        value={movie.rating}
+        value={movie.info.rating / 2}
         readOnly
       />
     </span>

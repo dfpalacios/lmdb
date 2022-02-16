@@ -3,17 +3,22 @@ import LoginForm from 'components/forms/LoginForm'
 import RegisterForm from 'components/forms/RegisterForm'
 import { CLOSE_MODAL } from 'context/modal/constants'
 import { useModalStore } from 'context/modal/hooks'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const LoginDialog = () => {
-  const [, modalDispatch] = useModalStore()
+  const [modalStatus, modalDispatch] = useModalStore()
   const [open, setOpen] = useState(true)
   const [form, setForm] = useState('login')
 
   const handleClose = () => {
-    setOpen(false)
     modalDispatch({ type: CLOSE_MODAL })
   }
+
+  useEffect(() => {
+    if (modalStatus.modal === null) {
+      setOpen(false)
+    }
+  }, [modalStatus])
 
   return (
     <Dialog

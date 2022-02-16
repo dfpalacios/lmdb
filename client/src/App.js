@@ -1,6 +1,5 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-
 import { Grid } from '@mui/material'
 
 import '@fontsource/roboto/300.css'
@@ -12,7 +11,6 @@ import 'styles/App.scss'
 
 import Menu from 'components/layouts/Menu'
 import Header from 'components/layouts/Header'
-import Footer from 'components/layouts/Footer'
 
 const App = () => {
   return (
@@ -26,9 +24,6 @@ const App = () => {
         </Grid>
         <Grid item xs={10}>
           <Outlet />
-        </Grid>
-        <Grid item xs={12}>
-          <Footer />
         </Grid>
       </Grid>
     </div>

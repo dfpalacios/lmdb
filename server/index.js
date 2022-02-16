@@ -4,7 +4,7 @@ const express = require('express')
 const bcrypt = require('bcryptjs')
 const path = require('path')
 const jwt = require('jsonwebtoken')
-const auth = require('./middleware/auth')
+const { verifyToken, checkUser } = require('./middleware/auth')
 const bd = require('./middleware/bd')
 const randtoken = require('rand-token')
 
@@ -14,12 +14,11 @@ const refreshTokens = {}
 
 const createToken = (user) => jwt.sign(
   {
-    id: user.id,
-    email: user.email
+    id: user.id
   },
   process.env.TOKEN_KEY,
   {
-    expiresIn: '15m'
+    expiresIn: '1m'
   }
 )
 
@@ -32,7 +31,7 @@ app.get('/api/test', (req, res) => {
 
 app.get('/api/movies', (req, res) => {
   try {
-    const movies = bd.getMovies()
+    const movies = bd.getMovies(req.query)
 
     if (!movies) {
       res.json([])
@@ -45,7 +44,7 @@ app.get('/api/movies', (req, res) => {
   }
 })
 
-app.get('/api/movies/:movieId', (req, res) => {
+app.get('/api/movies/:movieId', checkUser, (req, res) => {
   try {
     const { movieId } = req.params
 
@@ -54,7 +53,12 @@ app.get('/api/movies/:movieId', (req, res) => {
       return
     }
 
-    const movie = bd.getMovie((movie) => (Number(movie.id) === Number(movieId)))
+    const movie = bd.getMovie((movie) => (Number(movie.info.rank) === Number(movieId)))
+
+    if (req.user) {
+      movie.userRating = movie.info.rating / 2
+    }
+
     if (!movie) {
       res.status(404).send({ status: 404, message: 'Movie not found' })
       return
@@ -66,29 +70,8 @@ app.get('/api/movies/:movieId', (req, res) => {
   }
 })
 
-app.post('/api/movies/:movieId/stars', auth, (req, res) => {
+app.post('/api/movies/:movieId/stars', verifyToken, (req, res) => {
   res.sendStatus(200)
-})
-
-app.post('/api/generate-hash', (req, res) => {
-  try {
-    const { password } = req.body
-    bcrypt.genSalt(10, (err, salt) => {
-      if (err) {
-        res.status(400).send({ status: err.status, message: err.message })
-        return
-      }
-      bcrypt.hash(password, salt, (err, hash) => {
-        if (err) {
-          res.status(400).send({ status: err.status, message: err.message })
-          return
-        }
-        res.json({ hash, salt })
-      })
-    })
-  } catch (err) {
-    res.status(500).send({ status: err.status, message: err.message })
-  }
 })
 
 app.post('/api/token/reject', function (req, res) {
@@ -99,7 +82,7 @@ app.post('/api/token/reject', function (req, res) {
   res.sendStatus(204)
 })
 
-app.post('/api/token/refresh', auth, function (req, res) {
+app.post('/api/token/refresh', function (req, res) {
   try {
     const { id, refreshToken } = req.body
 
@@ -108,7 +91,7 @@ app.post('/api/token/refresh', auth, function (req, res) {
       return
     }
 
-    res.json({ token: createToken(req.user) })
+    res.json({ token: createToken({ id }) })
   } catch (err) {
     res.status(500).send({ status: err.status, message: err.message })
   }

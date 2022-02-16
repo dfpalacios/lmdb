@@ -1,8 +1,6 @@
 import { SHOW_MODAL, CLOSE_MODAL } from './constants'
 
 const reducer = (state, action) => {
-  console.log(state)
-  console.log(action)
   switch (action.type) {
     case SHOW_MODAL: {
       return { modal: action.payload }

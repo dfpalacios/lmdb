@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import './index.css'
+
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import UserProvider from './context/user/UserProvider'
@@ -12,6 +13,10 @@ import About from './routes/about'
 import BoxOffice from './routes/box-office'
 import Movie from 'routes/movie'
 import NotFound from 'routes/not-found'
+import ProtectedRoute from 'components/routes/ProtectedRoute'
+import Profile from 'routes/profile'
+
+import 'utils/axiosHeaders'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -24,6 +29,9 @@ ReactDOM.render(
               <Route path="about" element={<About />} />
               <Route path="box-office" element={<BoxOffice />} />
               <Route path="movie/:movieId" element={<Movie />} />
+              <Route path="profile" element={<ProtectedRoute />}>
+                <Route index element={<Profile />} />
+              </Route>
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>

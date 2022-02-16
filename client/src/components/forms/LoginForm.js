@@ -1,11 +1,20 @@
 import { useState } from 'react'
-import { DialogContent, DialogTitle, TextField, Button, Grid } from '@mui/material'
+import { DialogContent, DialogTitle, TextField, Button, Grid, CircularProgress } from '@mui/material'
+import { postLogin } from 'services/users';
+import { useUserStore } from 'context/user/hooks';
+import { LOGIN } from './../../context/user/constants';
+import { useModalStore } from 'context/modal/hooks';
+import { CLOSE_MODAL } from 'context/modal/constants';
 
 const LoginForm = ({ switchForm }) => {
+  const [loading, setLoading] = useState(false)
   const [formValues, setFormValues] = useState({
-    username: '',
+    email: '',
     password: ''
   })
+
+  const [, modalDispatch] = useModalStore()
+  const [, userDispatch] = useUserStore()
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -17,6 +26,13 @@ const LoginForm = ({ switchForm }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    setLoading(true)
+    postLogin(formValues).then((userData) => {
+      setLoading(false)
+      userDispatch({ type: LOGIN, payload: userData })
+      window.localStorage.setItem('user', JSON.stringify(userData));
+      modalDispatch({ type: CLOSE_MODAL })
+    })
   }
 
   return (
@@ -29,11 +45,11 @@ const LoginForm = ({ switchForm }) => {
               <TextField
                 autoFocus
                 margin='dense'
-                id='username'
-                label='Email Address or Username'
+                id='email'
+                label='Email Address'
                 type='text'
-                name='username'
-                value={formValues.username}
+                name='email'
+                value={formValues.email}
                 fullWidth
                 required
                 onChange={handleInputChange}
@@ -60,7 +76,7 @@ const LoginForm = ({ switchForm }) => {
             <Grid item xs={12}>
               <Grid container justifyContent='space-between'>
                 <Button variant='contained' color='primary' type='submit'>
-                  Submit
+                  Submit {loading && <CircularProgress />}
                 </Button>
                 <Button variant='contained' color='secondary' type='button' onClick={switchForm}>
                   Register

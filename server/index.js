@@ -18,7 +18,7 @@ const createToken = (user) => jwt.sign(
   },
   process.env.TOKEN_KEY,
   {
-    expiresIn: '1m'
+    expiresIn: '15m'
   }
 )
 
@@ -57,14 +57,17 @@ app.get('/api/movies/:movieId', checkUser, async (req, res) => {
     }
 
     const movie = bd.getMovie((movie) => (Number(movie.info.rank) === Number(movieId)))
-
-    if (req.user && parseInt(movieId, 10) % 2 === 0) {
-      movie.userRating = movie.info.rating / 2
-    }
-
+    
     if (!movie) {
       res.status(404).send({ status: 404, message: 'Movie not found' })
       return
+    }
+
+    if (req.user) {
+      const rating = movie?.info?.rating ?? 0
+      movie.userRating = (parseInt(movieId, 10) % 2 === 0)
+        ? rating / 2
+        : 0
     }
 
     res.json(movie)

@@ -27,7 +27,7 @@ const UserMenu = ({ user }) => {
   return (
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Tooltip title='Account settings'>
+        <Tooltip title='Account menu'>
           <IconButton
             onClick={handleClick}
             size='small'
@@ -76,7 +76,7 @@ const UserMenu = ({ user }) => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem>
-          <Link to='/profile'>
+          <Link to='/profile' style={{ textDecoration: 'none', color: '#000' }}>
             My account
           </Link>
         </MenuItem>

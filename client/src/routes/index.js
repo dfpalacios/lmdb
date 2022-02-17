@@ -1,8 +1,8 @@
 import React from 'react'
-import MoviesGrid from 'components/MoviesGrid'
+import MoviesList from 'components/MoviesList'
 
 const Index = () => {
-  return (<MoviesGrid />)
+  return (<MoviesList />)
 }
 
 export default Index

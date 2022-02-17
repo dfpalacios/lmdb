@@ -1,0 +1,34 @@
+body, html, #root, .app {
+  height: auto;
+  min-height: 100%;
+}
+
+.app {
+  text-align: center;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header-wrapper {
+  background-color: black;
+  clear: both;
+  float: left;
+  width: 100%;
+}
+
+.menu-wrapper {
+  border-bottom: 1px solid black;
+  clear: both;
+  float: left;
+  width: 100%;
+}
+
+.body-wrapper {
+  padding-bottom: 20px;
+  clear: both;
+  float: left;
+  width: 100%;
+}

@@ -1,7 +1,31 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Autocomplete, Rating, TextField } from '@mui/material'
+import { Autocomplete, Rating, TextField, styled } from '@mui/material'
 import { getMovies } from 'services/movies'
 import { Link } from 'react-router-dom'
+import styles from './searchForm.module.scss'
+
+const StyledAutocomplete = styled(Autocomplete)({
+  '& .MuiInputLabel-outlined': {
+    color: 'white'
+  },
+  '& .MuiInputLabel': {
+    color: 'white'
+  },
+  '& .MuiAutocomplete-inputRoot': {
+    '&[class*="MuiOutlinedInput-root"] .MuiAutocomplete-input:first-of-type': {
+      color: 'white'
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'white'
+    },
+    '&:hover .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'white'
+    },
+    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'white'
+    }
+  }
+})
 
 const SearchForm = () => {
   const [movies, setMovies] = useState([])
@@ -28,7 +52,7 @@ const SearchForm = () => {
   }, [search])
 
   return (
-    <Autocomplete
+    <StyledAutocomplete
       onInputChange={(event, value) => {
         setSearch(value)
       }}
@@ -36,16 +60,28 @@ const SearchForm = () => {
       disablePortal
       id='search-movie-autocomplete'
       options={movies}
-      sx={{ width: 300 }}
       getOptionLabel={option => option.title}
       renderOption={(props, option, state) => {
         return (
-          <div>
-            <Link to={`/movie/${option.id}`}>
+          <Link to={`/movie/${option.id}`} className={styles.movie}>
+            <span className={styles.title}>
               {option.title}
-              {option.info.rating && <Rating value={option.info.rating} precision={0.5} readOnly />}
-            </Link>
-          </div>
+            </span>
+            <span className={styles.rating}>
+              {option.info.rating && <Rating value={option.info.rating} size="small" precision={0.5} readOnly />}
+            </span>
+            <span className={styles.cover}>
+              {option.info.image_url &&
+                <img src={option.info.image_url} alt={`${option.title} cover`} />
+              }
+              {!option.info.image_url &&
+                <div className={styles.fakeCover}>
+                  <svg viewBox='0 0 2 3' />
+                  <span>N/A</span>
+                </div>
+              }
+            </span>
+          </Link>
         )
       }}
       renderInput={(params) => <TextField {...params} label='Search a movie' />}

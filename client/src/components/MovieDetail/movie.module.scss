@@ -1,0 +1,65 @@
+.title {
+  font-size: 2em;
+  margin-top: 0;
+}
+
+.cover {
+  width: 100%;
+}
+
+.movie {
+  padding: 30px 0;
+  margin-top: 30px;
+  border: 1px solid #ccc;
+}
+
+.genres,
+.directors,
+.actors {
+  display: flex;
+  gap: 5px;
+  margin: 0 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.leftColumn {
+  border-right: 1px solid #ccc;
+}
+
+.rankingWrapper {
+  margin-top: 20px;
+}
+
+.totalRating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover {
+  width: 50%;
+}
+
+.userRating {
+  margin-top: 20px;
+}
+
+.loginLink {
+  text-decoration: underline;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.fakeCover {
+  position: relative;
+  background-color: #ccc;
+  span {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+  }
+}

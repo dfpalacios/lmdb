@@ -1,0 +1,25 @@
+.header {
+  align-items: center;
+}
+
+.logo {
+  text-align: left;
+}
+
+.signinColumn {
+  display: flex;
+  color: white;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.links {
+  display: inline-flex;
+  gap: 40px;
+  color: white;
+  li {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+

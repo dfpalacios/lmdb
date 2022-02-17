@@ -1,111 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Rating, Select } from '@mui/material'
+import { Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select } from '@mui/material'
 import { getMovies } from 'services/movies'
 import { DataGrid } from '@mui/x-data-grid'
-import { Link } from 'react-router-dom'
-
-const genresAndTopics = [
-  'Action',
-  'Animation',
-  'Adventure',
-  'Biography',
-  'Crime',
-  'Drama',
-  'Family',
-  'Fantasy',
-  'Horror',
-  'Music',
-  'Mystery',
-  'Romance',
-  'Sci-Fi',
-  'Sport',
-  'Thriller'
-]
-
-const columns = [
-  {
-    field: 'rank',
-    headerName: 'Rank',
-    minWidth: 200,
-    disableColumnMenu: true,
-    disableColumnReorder: true,
-    disableReorder: true
-  },
-  {
-    field: 'title',
-    headerName: 'Title',
-    minWidth: 200,
-    disableColumnMenu: true,
-    disableColumnReorder: true,
-    disableReorder: true,
-    renderCell: (params) =>
-      <>
-        <Link to={`/movie/${params.value.id}`}>
-          {params.value.title}
-        </Link>
-      </>
-  },
-  {
-    field: 'image',
-    headerName: 'Image',
-    minWidth: 200,
-    disableColumnMenu: true,
-    disableColumnReorder: true,
-    disableReorder: true,
-    sortable: false,
-    renderCell: (params) => (
-      params.value.src
-        ? <img height='80' src={`${params.value.src}`} alt={params.value.alt} />
-        : (
-          <Box sx={{
-            height: '80px',
-            width: '54px',
-            backgroundColor: '#ccc',
-            fontSize: '12px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-          >
-            <span>N/A</span>
-          </Box>
-        )
-    )
-  },
-  {
-    field: 'rating',
-    headerName: 'Score',
-    minWidth: 200,
-    disableColumnMenu: true,
-    disableColumnReorder: true,
-    disableReorder: true,
-    renderCell: (params) => (params.value
-      ? (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <div><Rating value={params.value / 2} precision={0.5} readOnly /></div>
-          <div>({params.value})</div>
-        </div>
-      )
-      : <div>No rating available</div>
-    )
-  },
-  {
-    field: 'genres',
-    headerName: 'Genres & Topics',
-    minWidth: 200,
-    disableColumnMenu: true,
-    disableColumnReorder: true,
-    disableReorder: true,
-    sortable: false,
-    renderCell: (params) =>
-      <ul>
-        {params.value.map((genre) => (<li key={genre}>{genre}</li>))}
-      </ul>
-  }
-]
+import genresAndTopics from './genresAndTopics'
+import gridColumnsConfig from './gridColumnsConfig'
+import { ErrorBoundary } from 'react-error-boundary'
 
 const MoviesList = () => {
-  const [movies, setMovies] = useState(null)
+  const [movies, setMovies] = useState([])
+  const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(0)
   const [total, setTotal] = useState(0)
   const [sortModel, setSortModel] = useState([{ field: 'rank', sort: 'asc' }])
@@ -136,6 +39,7 @@ const MoviesList = () => {
   }
 
   const loadMovies = () => {
+    setLoading(true)
     getMovies({
       page,
       offset:
@@ -145,6 +49,7 @@ const MoviesList = () => {
       sort: sortModel[0]?.sort,
       genres: genresFilter
     }).then((data) => {
+      setLoading(false)
       setTotal(data.total)
 
       const rows = data.result.map((movie) => ({
@@ -168,13 +73,19 @@ const MoviesList = () => {
 
   useEffect(loadMovies, [page, sortModel, genresFilter])
 
-  if (!movies) {
-    return <p>Loading</p>
+  const errorFallback = ({ error, resetErrorBoundary }) => {
+    return (
+      <>
+        <p>There was an error loading the movies.</p>
+        <p>{error.message}</p>
+        <button onClick={resetErrorBoundary}>Try again</button>
+      </>
+    )
   }
 
   return (
     <>
-      <FormControl sx={{ m: 1, width: 300 }}>
+      <FormControl sx={{ width: '100%', margin: '30px 0 30px 0' }}>
         <InputLabel id='select-genres-label'>Genres &amp; Topics</InputLabel>
         <Select
           labelId='select-genres-label'
@@ -203,23 +114,32 @@ const MoviesList = () => {
         </Select>
       </FormControl>
 
-      <div style={{ width: '100%' }}>
-        <DataGrid
-          rows={movies}
-          columns={columns}
-          autoHeight
-          rowHeight={120}
-          rowsPerPageOptions={[]}
-          hideFooterSelectedRowCount
-          paginationMode='server'
-          sortingMode='server'
-          rowCount={total}
-          autoPageSize
-          sortModel={sortModel}
-          onSortModelChange={handleSortModelChange}
-          onPageChange={handlePageChange}
-        />
-      </div>
+      <ErrorBoundary FallbackComponent={errorFallback}>
+        <div style={{ width: '100%' }}>
+          {loading &&
+            <>
+              <p>Loading...</p>
+            </>
+          }
+          {!loading &&
+            <DataGrid
+              rows={movies}
+              columns={gridColumnsConfig}
+              autoHeight
+              rowHeight={120}
+              rowsPerPageOptions={[]}
+              hideFooterSelectedRowCount
+              paginationMode='server'
+              sortingMode='server'
+              rowCount={total}
+              autoPageSize
+              sortModel={sortModel}
+              onSortModelChange={handleSortModelChange}
+              onPageChange={handlePageChange}
+            />
+          }
+        </div>
+      </ErrorBoundary>
     </>
   )
 }

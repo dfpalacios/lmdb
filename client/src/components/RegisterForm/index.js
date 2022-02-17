@@ -105,18 +105,23 @@ const RegisterForm = ({ switchForm }) => {
                 variant='standard'
               />
             </Grid>
+
             <Grid item xs={12}>
               <Grid container justifyContent='space-between'>
-                <Button variant='contained' color='primary' type='submit'>
-                  Submit {loading && <CircularProgress />}
+                <Button variant='contained' color='warning' type='submit'>
+                  Submit
+                  {loading &&
+                    <CircularProgress color='primary' size={15} style={{ marginLeft: '10px' }} thickness={5} />
+                  }
                 </Button>
                 {switchForm &&
-                  <Button variant='contained' color='secondary' type='button' onClick={switchForm}>
+                  <Button variant='contained' color='primary' type='button' onClick={switchForm}>
                     Go to Login
                   </Button>
                 }
               </Grid>
             </Grid>
+
           </Grid>
         </form>
       </DialogContent>

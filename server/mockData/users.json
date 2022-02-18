@@ -1,26 +1,10 @@
 [
     {
         "id": 1,
-        "username": "dfernandez",
-        "name": "David",
-        "email": "davidfernandezpalacios@gmail.com",
-        "password": "$2a$10$kDdrkiPunMMGJ4E..IucnOx71d9uATwIcV4Fx9W2b1QKxtKaDAtxu",
-        "salt": "$2a$10$kDdrkiPunMMGJ4E..IucnO"
-    },
-    {
-        "id": 2,
         "username": "hiberus",
         "name": "Hiberus",
         "email": "tech@hiberus.com",
         "password": "$2a$10$sEzS/U6OlRriXwMSqaglJeEuZvjTfziGNi0kXrVvE7L.DR00bT5B.",
         "salt": "$2a$10$sEzS/U6OlRriXwMSqaglJe"
-    },
-    {
-        "id": 3,
-        "username": "ihateallmovies",
-        "name": "I hate all movies",
-        "email": "hater@gmail.com",
-        "password": "$2a$10$SYy6gWu9f.vN/3QHnAoIre3KCIljvjHIrw2XtyjwBV9P3PECURYF.",
-        "salt": "$2a$10$SYy6gWu9f.vN/3QHnAoIre"
     }
 ]

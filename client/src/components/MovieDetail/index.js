@@ -49,7 +49,7 @@ const MovieDetail = ({ movieId }) => {
 
   useEffect(() => {
     loadMovie()
-  }, [user])
+  }, [user, movieId])
 
   if (loading) {
     return (
@@ -152,7 +152,7 @@ const MovieDetail = ({ movieId }) => {
 }
 
 MovieDetail.propTypes = {
-  movieId: PropTypes.number
+  movieId: PropTypes.number.isRequired
 }
 
 export default MovieDetail

@@ -8,6 +8,8 @@ const storeToken = (newToken) => {
   window.localStorage.setItem('user', JSON.stringify(user))
 }
 
+axios.defaults.baseURL = process.env.REACT_APP_API_URL
+
 axios.interceptors.request.use(function (config) {
   const user = JSON.parse(window.localStorage.getItem('user'))
   if (user?.token) {

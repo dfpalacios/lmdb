@@ -83,7 +83,15 @@ const SearchForm = () => {
           </Link>
         )
       }}
-      renderInput={(params) => <TextField {...params} label='Search a movie' />}
+      renderInput={(params) =>
+        <TextField
+          {...params}
+          InputProps={{
+            ...params.InputProps,
+            endAdornment: (<></>)
+          }}
+          label='Search a movie'
+        />}
     />
   )
 }

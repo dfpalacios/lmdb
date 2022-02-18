@@ -7,7 +7,8 @@ export const UserContext = createContext()
 const { Provider } = UserContext
 
 const UserProvider = (props) => {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const { value } = props
+  const [state, dispatch] = useReducer(reducer, value || initialState)
 
   return (
     <Provider value={[state, dispatch]}>
@@ -17,7 +18,8 @@ const UserProvider = (props) => {
 }
 
 UserProvider.propTypes = {
-  children: PropTypes.any
+  children: PropTypes.any,
+  value: PropTypes.any
 }
 
 export default UserProvider

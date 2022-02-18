@@ -19,8 +19,8 @@ const App = () => {
 
   return (
     <div className='app'>
-      <div className={'header-wrapper'}>
-        <div className={'container'}>
+      <div className='header-wrapper'>
+        <div className='container'>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Header />
@@ -28,8 +28,8 @@ const App = () => {
           </Grid>
         </div>
       </div>
-      <div className={'menu-wrapper'}>
-        <div className={'container'}>
+      <div className='menu-wrapper'>
+        <div className='container'>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Menu />
@@ -37,8 +37,8 @@ const App = () => {
           </Grid>
         </div>
       </div>
-      <div className={'body-wrapper'}>
-        <div className={'container'}>
+      <div className='body-wrapper'>
+        <div className='container'>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Outlet />
@@ -47,7 +47,7 @@ const App = () => {
         </div>
       </div>
       {['login', 'register'].includes(modalState.modal) && <SigninDialog />}
-    </div >
+    </div>
   )
 }
 

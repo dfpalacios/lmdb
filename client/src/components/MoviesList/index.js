@@ -9,6 +9,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 const MoviesList = () => {
   const [movies, setMovies] = useState([])
   const [loading, setLoading] = useState(true)
+  const [errorLoading, setErrorLoading] = useState(true)
   const [page, setPage] = useState(0)
   const [total, setTotal] = useState(0)
   const [sortModel, setSortModel] = useState([{ field: 'rank', sort: 'asc' }])
@@ -40,6 +41,7 @@ const MoviesList = () => {
 
   const loadMovies = () => {
     setLoading(true)
+    setErrorLoading(false)
     getMovies({
       page,
       offset:
@@ -49,7 +51,6 @@ const MoviesList = () => {
       sort: sortModel[0]?.sort,
       genres: genresFilter
     }).then((data) => {
-      setLoading(false)
       setTotal(data.total)
 
       const rows = data.result.map((movie) => ({
@@ -68,20 +69,18 @@ const MoviesList = () => {
       }))
 
       setMovies(rows)
+    }, () => {
+      setErrorLoading(true)
+    }).finally(() => {
+      setLoading(false)
     })
   }
 
   useEffect(loadMovies, [page, sortModel, genresFilter])
 
-  const errorFallback = ({ error, resetErrorBoundary }) => {
-    return (
-      <>
-        <p>There was an error loading the movies.</p>
-        <p>{error.message}</p>
-        <button onClick={resetErrorBoundary}>Try again</button>
-      </>
-    )
-  }
+  const errorFallback = () => (
+    <p>There was an error loading the movies.</p>
+  )
 
   return (
     <>
@@ -118,10 +117,13 @@ const MoviesList = () => {
         <div style={{ width: '100%' }}>
           {loading &&
             <>
-              <p>Loading...</p>
-            </>
-          }
-          {!loading &&
+              <p>Loading movies...</p>
+            </>}
+          {!loading && errorLoading &&
+            <>
+              <p>There was an error loading the movies.</p>
+            </>}
+          {!loading && !errorLoading &&
             <DataGrid
               rows={movies}
               columns={gridColumnsConfig}
@@ -136,8 +138,7 @@ const MoviesList = () => {
               sortModel={sortModel}
               onSortModelChange={handleSortModelChange}
               onPageChange={handlePageChange}
-            />
-          }
+            />}
         </div>
       </ErrorBoundary>
     </>

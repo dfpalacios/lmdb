@@ -6,8 +6,8 @@ export const getMovies = async (queryParams) => {
 }
 
 export const getMovie = async (movieId) => {
-  const { data } = await axios.get(`/api/movies/${movieId}`)
-  return data
+  const res = await axios.get(`/api/movies/${movieId}`)
+  return res.data
 }
 
 export const postRateMovie = async (movieId, rating) => {

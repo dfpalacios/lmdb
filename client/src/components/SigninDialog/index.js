@@ -22,14 +22,16 @@ const SigninDialog = () => {
   }, [modalStatus])
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      aria-labelledby='dialog-login'
-    >
-      {form === 'login' && <LoginForm switchForm={() => setForm('register')} />}
-      {form === 'register' && <RegisterForm switchForm={() => setForm('login')} />}
-    </Dialog>
+    <>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby='dialog-login'
+      >
+        {form === 'login' && <LoginForm switchForm={() => setForm('register')} />}
+        {form === 'register' && <RegisterForm switchForm={() => setForm('login')} />}
+      </Dialog>
+    </>
   )
 }
 

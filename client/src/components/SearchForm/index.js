@@ -58,6 +58,7 @@ const SearchForm = () => {
       }}
       loading={loading}
       disablePortal
+      noOptionsText='No movies found'
       id='search-movie-autocomplete'
       options={movies}
       getOptionLabel={option => option.title}
@@ -68,18 +69,16 @@ const SearchForm = () => {
               {option.title}
             </span>
             <span className={styles.rating}>
-              {option.info.rating && <Rating value={option.info.rating} size="small" precision={0.5} readOnly />}
+              {option.info.rating && <Rating value={option.info.rating} size='small' precision={0.5} readOnly />}
             </span>
             <span className={styles.cover}>
               {option.info.image_url &&
-                <img src={option.info.image_url} alt={`${option.title} cover`} />
-              }
+                <img src={option.info.image_url} alt={`${option.title} cover`} />}
               {!option.info.image_url &&
                 <div className={styles.fakeCover}>
                   <svg viewBox='0 0 2 3' />
                   <span>N/A</span>
-                </div>
-              }
+                </div>}
             </span>
           </Link>
         )

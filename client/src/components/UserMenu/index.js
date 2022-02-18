@@ -1,15 +1,23 @@
 import React, { useState } from 'react'
 import { Menu, MenuItem, Box, IconButton, Tooltip, Avatar } from '@mui/material'
 import { LOGOUT } from 'context/UserProvider/constants'
+import { SHOW_MODAL } from 'context/ModalProvider/constants'
 import { useUserStore } from 'context/UserProvider/hooks'
+import { useModalStore } from 'context/ModalProvider/hooks'
 import { Link } from 'react-router-dom'
-import { PropTypes } from 'prop-types'
+import styles from './userMenu.module.scss'
 
-const UserMenu = ({ user }) => {
+const UserMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null)
-  const [, userDispatch] = useUserStore()
+  const [user, userDispatch] = useUserStore()
+  const [, modalDispatch] = useModalStore()
 
   const open = Boolean(anchorEl)
+
+  const logout = () => {
+    window.localStorage.removeItem('user')
+    userDispatch({ type: LOGOUT })
+  }
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -19,13 +27,36 @@ const UserMenu = ({ user }) => {
     setAnchorEl(null)
   }
 
-  const logout = () => {
-    window.localStorage.removeItem('user')
-    userDispatch({ type: LOGOUT })
+  const showLogin = () => {
+    modalDispatch({
+      type: SHOW_MODAL,
+      payload: 'login'
+    })
+  }
+
+  const showRegister = () => {
+    modalDispatch({
+      type: SHOW_MODAL,
+      payload: 'register'
+    })
+  }
+
+  if (!user.id) {
+    return (
+      <ul className={styles.links}>
+        <li onClick={showLogin}>
+          Login
+        </li>
+        <li onClick={showRegister}>
+          Register
+        </li>
+      </ul>
+    )
   }
 
   return (
     <>
+      <span>Welcome, <strong>{user.name}!</strong></span>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Tooltip title='Account menu'>
           <IconButton
@@ -75,21 +106,17 @@ const UserMenu = ({ user }) => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem>
+        <MenuItem name='profile'>
           <Link to='/profile' style={{ textDecoration: 'none', color: '#000' }}>
             My account
           </Link>
         </MenuItem>
-        <MenuItem onClick={logout}>
+        <MenuItem name='logout' onClick={logout}>
           Logout
         </MenuItem>
       </Menu>
     </>
   )
-}
-
-UserMenu.propTypes = {
-  user: PropTypes.object
 }
 
 export default UserMenu

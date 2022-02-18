@@ -51,7 +51,7 @@ const gridColumnsConfig = [
           >
             <span>N/A</span>
           </Box>
-        )
+          )
     )
   },
   {
@@ -67,7 +67,7 @@ const gridColumnsConfig = [
           <div><Rating value={params.value / 2} precision={0.5} readOnly /></div>
           <div>({params.value})</div>
         </div>
-      )
+        )
       : <div>No rating available</div>
     )
   },

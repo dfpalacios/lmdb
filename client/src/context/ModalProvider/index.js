@@ -7,7 +7,8 @@ export const ModalContext = createContext()
 const { Provider } = ModalContext
 
 const ModalProvider = (props) => {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const { value } = props
+  const [state, dispatch] = useReducer(reducer, value || initialState)
 
   return (
     <Provider value={[state, dispatch]}>
@@ -17,7 +18,8 @@ const ModalProvider = (props) => {
 }
 
 ModalProvider.propTypes = {
-  children: PropTypes.any
+  children: PropTypes.any,
+  value: PropTypes.any
 }
 
 export default ModalProvider

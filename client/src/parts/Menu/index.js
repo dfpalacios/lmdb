@@ -15,8 +15,8 @@ const Menu = () => {
         <li><Link to='/' className={getMenuClass('/')}>Home</Link></li>
         <li><Link to='/about' className={getMenuClass('/about')}> About us</Link></li>
         <li><Link to='/box-office' className={getMenuClass('/box-office')}> BoxOffice</Link></li>
-      </ul >
-    </nav >
+      </ul>
+    </nav>
   )
 }
 

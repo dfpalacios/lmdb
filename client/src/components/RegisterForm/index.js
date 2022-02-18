@@ -5,6 +5,8 @@ import { PropTypes } from 'prop-types'
 
 const RegisterForm = ({ switchForm }) => {
   const [registerComplete, setRegisterComplete] = useState(false)
+  const [errorRegister, setErrorRegister] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const [formValues, setFormValues] = useState({
@@ -14,6 +16,8 @@ const RegisterForm = ({ switchForm }) => {
   })
 
   const handleInputChange = (e) => {
+    setSubmitted(false)
+    setErrorRegister(false)
     const { name, value } = e.target
     setFormValues({
       ...formValues,
@@ -23,10 +27,20 @@ const RegisterForm = ({ switchForm }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    setSubmitted(true)
+    if (formValues.email === '' ||
+      formValues.password === '' ||
+      formValues.username === '') {
+      return false
+    }
     setLoading(true)
     postRegister(formValues).then((userData) => {
+      setSubmitted(false)
       setLoading(false)
       setRegisterComplete(true)
+    }).catch(() => {
+      setLoading(false)
+      setErrorRegister(true)
     })
   }
 
@@ -45,8 +59,7 @@ const RegisterForm = ({ switchForm }) => {
               <Button variant='contained' color='secondary' type='button' onClick={switchForm}>
                 Back to Login
               </Button>
-            </Grid>
-          }
+            </Grid>}
         </Grid>
       </DialogContent>
     )
@@ -56,6 +69,11 @@ const RegisterForm = ({ switchForm }) => {
     <>
       <DialogTitle>Register</DialogTitle>
       <DialogContent>
+        {errorRegister &&
+          <Alert severity='warning'>
+            <AlertTitle>Register error</AlertTitle>
+            Please check your user info and try again.
+          </Alert>}
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -68,7 +86,8 @@ const RegisterForm = ({ switchForm }) => {
                 name='username'
                 value={formValues.username}
                 fullWidth
-                required
+                error={submitted && formValues.username === ''}
+                helperText={submitted && formValues.username === '' ? 'Username required' : ''}
                 onChange={handleInputChange}
                 variant='standard'
               />
@@ -84,7 +103,8 @@ const RegisterForm = ({ switchForm }) => {
                 name='email'
                 value={formValues.email}
                 fullWidth
-                required
+                error={submitted && formValues.email === ''}
+                helperText={submitted && formValues.email === '' ? 'Email required' : ''}
                 onChange={handleInputChange}
                 variant='standard'
               />
@@ -99,8 +119,9 @@ const RegisterForm = ({ switchForm }) => {
                 type='password'
                 name='password'
                 value={formValues.password}
+                error={submitted && formValues.password === ''}
+                helperText={submitted && formValues.password === '' ? 'Password required' : ''}
                 fullWidth
-                required
                 onChange={handleInputChange}
                 variant='standard'
               />
@@ -111,14 +132,12 @@ const RegisterForm = ({ switchForm }) => {
                 <Button variant='contained' color='warning' type='submit'>
                   Submit
                   {loading &&
-                    <CircularProgress color='primary' size={15} style={{ marginLeft: '10px' }} thickness={5} />
-                  }
+                    <CircularProgress color='primary' size={15} style={{ marginLeft: '10px' }} thickness={5} />}
                 </Button>
                 {switchForm &&
                   <Button variant='contained' color='primary' type='button' onClick={switchForm}>
                     Go to Login
-                  </Button>
-                }
+                  </Button>}
               </Grid>
             </Grid>
 

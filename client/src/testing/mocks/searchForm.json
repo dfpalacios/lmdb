@@ -1,0 +1,82 @@
+{
+  "total":890,
+  "result":[
+     {
+        "year":2013,
+        "title":"Test movie 1",
+        "info":{
+           "directors":[
+              "Francis Lawrence"
+           ],
+           "release_date":"2013-11-11T00:00:00Z",
+           "genres":[
+              "Action",
+              "Adventure",
+              "Sci-Fi",
+              "Thriller"
+           ],
+           "image_url":"https://ia.media-imdb.com/images/M/MV5BMTAyMjQ3OTAxMzNeQTJeQWpwZ15BbWU4MDU0NzA1MzAx._V1_SX400_.jpg",
+           "plot":"Test plot 1",
+           "rank":4,
+           "running_time_secs":8760,
+           "actors":[
+              "Jennifer Lawrence",
+              "Josh Hutcherson",
+              "Liam Hemsworth"
+           ]
+        },
+        "id":4
+     },
+     {
+        "year":2013,
+        "title":"The Family",
+        "info":{
+           "directors":[
+              "Luc Besson"
+           ],
+           "release_date":"2013-09-10T00:00:00Z",
+           "rating":6.5,
+           "genres":[
+              "Action",
+              "Comedy",
+              "Crime"
+           ],
+           "image_url":"https://ia.media-imdb.com/images/M/MV5BMjE2MzI0MzkyNV5BMl5BanBnXkFtZTcwMjQ2MDM2OQ@@._V1_SX400_.jpg",
+           "plot":"The Manzoni family, a notorious mafia clan, is relocated to Normandy, France under the witness protection program, where fitting in soon becomes challenging as their old habits die hard.",
+           "rank":15,
+           "running_time_secs":6660,
+           "actors":[
+              "Robert De Niro",
+              "Michelle Pfeiffer",
+              "Dianna Agron"
+           ]
+        },
+        "id":15
+     },
+     {
+        "year":2013,
+        "title":"The Great Gatsby",
+        "info":{
+           "directors":[
+              "Baz Luhrmann"
+           ],
+           "release_date":"2013-05-01T00:00:00Z",
+           "rating":7.3,
+           "genres":[
+              "Drama",
+              "Romance"
+           ],
+           "image_url":"https://ia.media-imdb.com/images/M/MV5BMTkxNTk1ODcxNl5BMl5BanBnXkFtZTcwMDI1OTMzOQ@@._V1_SX400_.jpg",
+           "plot":"A Midwestern war veteran finds himself drawn to the past and lifestyle of his millionaire neighbor.",
+           "rank":18,
+           "running_time_secs":8580,
+           "actors":[
+              "Leonardo DiCaprio",
+              "Carey Mulligan",
+              "Joel Edgerton"
+           ]
+        },
+        "id":18
+     }      
+  ]
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './movie.module.scss'
 import PropTypes from 'prop-types'
 
@@ -6,13 +6,29 @@ import { Grid, Chip, Rating } from '@mui/material'
 import { useUserStore } from 'context/UserProvider/hooks'
 import { useModalStore } from 'context/ModalProvider/hooks'
 import { SHOW_MODAL } from 'context/ModalProvider/constants'
-import { postRateMovie } from 'services/movies'
+import { getMovie, postRateMovie } from 'services/movies'
 
-const MovieDetail = ({ movie }) => {
-  const date = new Date(movie?.info?.release_date).toLocaleDateString('en-UK')
-  const [userRating, setUserRating] = useState(movie?.userRating)
+const MovieDetail = ({ movieId }) => {
+  const [movie, setMovie] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [errorLoading, setErrorLoading] = useState(false)
+  const [userRating, setUserRating] = useState(null)
+  const [date, setDate] = useState(null)
+
   const [user] = useUserStore()
   const [, modalDispatch] = useModalStore()
+
+  const loadMovie = () => {
+    setLoading(true)
+    setErrorLoading(false)
+    getMovie(movieId).then((movie) => {
+      setMovie(movie)
+    }, () => {
+      setErrorLoading(true)
+    }).finally(() => {
+      setLoading(false)
+    })
+  }
 
   const showLogin = () => {
     modalDispatch({
@@ -26,6 +42,35 @@ const MovieDetail = ({ movie }) => {
     setUserRating(newValue * 2)
   }
 
+  useEffect(() => {
+    setDate(new Date(movie?.info?.release_date).toLocaleDateString('en-UK'))
+    setUserRating(movie?.userRating)
+  }, [movie])
+
+  useEffect(() => {
+    loadMovie()
+  }, [user])
+
+  if (loading) {
+    return (
+      <Grid container className={styles.movie}>
+        <Grid item xs={12}>
+          <div>Loading...</div>
+        </Grid>
+      </Grid>
+    )
+  }
+
+  if (errorLoading) {
+    return (
+      <Grid container className={styles.movie}>
+        <Grid item xs={12}>
+          <div>There was an error loading the movie.</div>
+        </Grid>
+      </Grid>
+    )
+  }
+
   return (
     <Grid container className={styles.movie}>
       <Grid item xs={8} className={styles.leftColumn}>
@@ -33,7 +78,8 @@ const MovieDetail = ({ movie }) => {
         <div className={styles.info}>
           <p>Rank: <strong>{movie.info.rank}</strong> /
             Year: <strong>{movie.year}</strong> /
-            Release date: <strong>{date}</strong></p>
+            Release date: <strong>{date}</strong>
+          </p>
         </div>
         <h3>Genre/s</h3>
         <div className={styles.genres}>
@@ -79,35 +125,34 @@ const MovieDetail = ({ movie }) => {
                   readOnly
                 />
                 ({movie.info.rating})
-              </>
-            }
+              </>}
           </div>
           <div className={styles.userRating}>
             {!user.id &&
-              <span className={styles.loginLink}
-                onClick={showLogin}>Log in to rate this movie
-              </span>
-            }
+              <span
+                className={styles.loginLink}
+                onClick={showLogin}
+              >Log in to rate this movie
+              </span>}
             {user.id &&
               <>
                 <p>Your rating:</p>
                 <Rating
-                  name={`rating-${movie.id}`}
+                  name={`rating-user-${movie.id}`}
                   precision={0.5}
                   value={userRating / 2}
                   onChange={handleOnChange}
                 />
-              </>
-            }
+              </>}
           </div>
         </div>
       </Grid>
-    </Grid >
+    </Grid>
   )
 }
 
 MovieDetail.propTypes = {
-  movie: PropTypes.object.isRequired
+  movieId: PropTypes.number
 }
 
 export default MovieDetail

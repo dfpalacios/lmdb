@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { DialogContent, DialogTitle, TextField, Button, Grid, CircularProgress } from '@mui/material'
+import { Alert, AlertTitle, DialogContent, DialogTitle, TextField, Button, Grid, CircularProgress } from '@mui/material'
 import { postLogin } from 'services/users'
 import { useUserStore } from 'context/UserProvider/hooks'
 import { LOGIN } from 'context/UserProvider/constants'
@@ -9,6 +9,8 @@ import { PropTypes } from 'prop-types'
 
 const LoginForm = ({ switchForm }) => {
   const [loading, setLoading] = useState(false)
+  const [errorLogin, setErrorLogin] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
   const [formValues, setFormValues] = useState({
     email: '',
     password: ''
@@ -18,6 +20,8 @@ const LoginForm = ({ switchForm }) => {
   const [, userDispatch] = useUserStore()
 
   const handleInputChange = (e) => {
+    setSubmitted(false)
+    setErrorLogin(false)
     const { name, value } = e.target
     setFormValues({
       ...formValues,
@@ -27,12 +31,20 @@ const LoginForm = ({ switchForm }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    setSubmitted(true)
+    if (formValues.email === '' || formValues.password === '') {
+      return false
+    }
     setLoading(true)
     postLogin(formValues).then((userData) => {
+      setSubmitted(false)
       setLoading(false)
       userDispatch({ type: LOGIN, payload: userData })
       window.localStorage.setItem('user', JSON.stringify(userData))
       modalDispatch({ type: CLOSE_MODAL })
+    }).catch(() => {
+      setLoading(false)
+      setErrorLogin(true)
     })
   }
 
@@ -40,6 +52,11 @@ const LoginForm = ({ switchForm }) => {
     <>
       <DialogTitle>Login</DialogTitle>
       <DialogContent>
+        {errorLogin &&
+          <Alert severity='warning'>
+            <AlertTitle>Login error</AlertTitle>
+            Check your email and password and try again.
+          </Alert>}
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -52,7 +69,8 @@ const LoginForm = ({ switchForm }) => {
                 name='email'
                 value={formValues.email}
                 fullWidth
-                required
+                error={submitted && formValues.email === ''}
+                helperText={submitted && formValues.email === '' ? 'Email required' : ''}
                 onChange={handleInputChange}
                 variant='standard'
               />
@@ -60,15 +78,15 @@ const LoginForm = ({ switchForm }) => {
 
             <Grid item xs={12}>
               <TextField
-                autoFocus
                 margin='dense'
-                id='name'
+                id='password'
                 label='Password'
                 type='password'
                 name='password'
                 value={formValues.password}
                 fullWidth
-                required
+                error={submitted && formValues.password === ''}
+                helperText={submitted && formValues.password === '' ? 'Password required' : ''}
                 onChange={handleInputChange}
                 variant='standard'
               />
@@ -79,8 +97,7 @@ const LoginForm = ({ switchForm }) => {
                 <Button variant='contained' color='warning' type='submit'>
                   Submit
                   {loading &&
-                    <CircularProgress color='primary' size={15} style={{ marginLeft: '10px' }} thickness={5} />
-                  }
+                    <CircularProgress color='primary' size={15} style={{ marginLeft: '10px' }} thickness={5} />}
                 </Button>
                 {switchForm &&
                   <Button variant='contained' color='primary' type='button' onClick={switchForm}>

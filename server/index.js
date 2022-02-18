@@ -32,7 +32,7 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname, '/public')))
 
 app.get('/api/movies', async (req, res) => {
-  await sleep(1000)
+  await sleep(500)
   try {
     const movies = bd.getMovies(req.query)
     if (!movies) {
@@ -47,7 +47,7 @@ app.get('/api/movies', async (req, res) => {
 })
 
 app.get('/api/movies/:movieId', checkUser, async (req, res) => {
-  await sleep(1000)
+  await sleep(500)
   try {
     const { movieId } = req.params
 
@@ -56,7 +56,7 @@ app.get('/api/movies/:movieId', checkUser, async (req, res) => {
       return
     }
 
-    const movie = bd.getMovie((movie) => (Number(movie.info.rank) === Number(movieId)))
+    const movie = bd.getMovie((movie) => (Number(movie?.info?.rank) === Number(movieId)))
     
     if (!movie) {
       res.status(404).send({ status: 404, message: 'Movie not found' })
@@ -77,12 +77,16 @@ app.get('/api/movies/:movieId', checkUser, async (req, res) => {
 })
 
 app.post('/api/movies/:movieId/stars', verifyToken, async (req, res) => {
-  await sleep(1000)
+  await sleep(500)
   res.sendStatus(200)
 })
 
 app.post('/api/register', async (req, res) => {
-  await sleep(1000)
+  await sleep(500)
+  if (req.body.email === 'error@mail.com') {
+    res.sendStatus(400)
+    return
+  }
   res.sendStatus(200)
 })
 
@@ -110,7 +114,7 @@ app.post('/api/token/refresh', function (req, res) {
 })
 
 app.post('/api/login', async (req, res) => {
-  await sleep(1000)
+  await sleep(500)
   try {
     const { email, password } = req.body
 

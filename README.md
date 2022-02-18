@@ -110,7 +110,7 @@ Done! The browser should launch the client app in the browser. You can use the f
 
 | Email | Password |
 |------| -------- |
-| tech@hiberus.com | hiberus |
+| demo@demo.com | demo |
 
 # Usage
 

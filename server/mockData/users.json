@@ -1,10 +1,10 @@
 [
     {
         "id": 1,
-        "username": "hiberus",
-        "name": "Hiberus",
-        "email": "tech@hiberus.com",
-        "password": "$2a$10$sEzS/U6OlRriXwMSqaglJeEuZvjTfziGNi0kXrVvE7L.DR00bT5B.",
-        "salt": "$2a$10$sEzS/U6OlRriXwMSqaglJe"
+        "username": "demo_user",
+        "name": "Demo User",
+        "email": "demo@demo.com",
+        "password": "$2a$10$4QEKqDfbMz/o.JszGofzv.VbG1DZu/w64B4WEimxbyYgvKEmbHEg2",
+        "salt": "$2a$10$4QEKqDfbMz/o.JszGofzv."
     }
 ]

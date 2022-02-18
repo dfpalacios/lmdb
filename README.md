@@ -14,11 +14,11 @@ The project is made up of two parts: a server and a client app.
 
 Some considerations:
 
-* Amazingly, the demo user has rated ONLY the even ranked movies (2nd, 4th, 6th, etc.). This will be reflected on the client side when the logged in user views a movie card.
-* JWT token expiration is 15 minutes. The client application will request a refresh of the token when it expires. On this server the refresh tokens are stored in memory, so it is important to keep the server process alive while testing with the client.
-* To simulate latency and visualize the loaders in the client application, each endpoint has a sleep of 500 ms.
-* CORS enabled to allow use from any origin.
-* The register endpoint will fail for the email "error@mail.com".
+* After deciding by a toss coin, the demo user has rated the *even* ranked movies (2nd, 4th, 6th, etc.). This will be reflected on the client side when the logged in user views a movie card.
+* The JWT token expiration is 15 minutes. The client application will request a refresh of the token when it expires. On this server the refresh tokens are stored in memory, so it is important to keep the server process alive while testing with the client.
+* To simulate latency and visualize the loaders in the client application, all endpoints return their response after 500ms.
+* CORS is enabled and configured to allow any origin.
+* The /api/register endpoint will fail for the email "error@mail.com".
 
 ## Endpoints
 

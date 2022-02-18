@@ -54,7 +54,7 @@ Built With:
 - Visitors browsing the page can:
   - Filter and sort movies by title and rating.
   - Search for a movie by title.
-  - View the details of a movie on an individual page. If the user is not logged in, they will be prompted to log in to grade. If the user is logged in, they will be able to rate the movie (or update the rating).
+  - View the details of a movie on an individual page. Authenticated users will be able to rate the movie (or update their rating).
   - Access a private profile screen (just an empty page). If the user is not logged in, they will be redirected to the home page when entering the url in the browser.
   - Login or simulate a register.
 

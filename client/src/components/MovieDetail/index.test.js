@@ -13,7 +13,7 @@ describe('The movie detail', () => {
   })
 
   it('shows the loader', async () => {
-    render(<MovieDetail />)
+    render(<MovieDetail movieId={1}/>)
     const movieLoader = await screen.findByText(/loading/i)
     expect(movieLoader).toBeInTheDocument()
   })

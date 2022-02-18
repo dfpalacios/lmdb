@@ -114,7 +114,7 @@ Done! The browser should launch the client app in the browser. You can use the f
 
 # Usage
 
-Existe una demo disponible del proyecto:
+Demo:
 
 - Server: https://lmdb-api.herokuapp.com/ 
 - Client: https://lmdb.vercel.app/
